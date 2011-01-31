@@ -1,0 +1,20 @@
+<html lang="en">
+  <head>
+    <title>Sample</title>
+  </head>
+  <body>
+    <p>This is a document with an empty title element.</p>
+	<script type="text/javascript">
+	function printpopup(url){
+	        MyWin = window.open("","","");
+	        with(MyWin.document){
+	        open();
+	        write("<html><head><title>This is not the title</title>\n</head>\n<body>\n");
+	        write("<h1>This is not a document heading</h1>\n");
+	        write("</body>\n</html>\n");
+	        close();
+	        }
+	}
+	</script>
+  </body>
+</html>

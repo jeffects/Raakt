@@ -1,0 +1,9 @@
+TODO
+----
+- Standalone web server interface for local testing
+- check for xml:lang as well
+
+
+DONE
+----
+- Pluggable wordlist support to find diffcult words that should be avoided (e.g. "svarta listan" for Swedish)

@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<title>Ruby Accessibility Analysis Kit - Service</title>
+		<link rel="stylesheet" href="/files/base.css" type="text/css" />
+		<script type="text/javascript" src="/files/jquery-131.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+    		$("#tabs").tabs();
+		});
+		</script>
+	</head>
+
+	<body>
+
+		<% if result.size > 0 %>
+			<a href="#result">Skip to result</a>
+		<% end %>
+		<div id="banner">
+			<h1 id="title">
+				<a href="http://www.w3.org/"><img alt="" id="logo" src="./images/w3c.png" /></a>
+				<a href="/"><span>Raakt: Ruby Accessibility Analysis Kit Service</span></a>
+			</h1>
+			<p id="tagline">Check basic accessibility of Web documents</p>
+		</div>
+
+		<div id="frontforms">
+			<ul id="tabset_tabs">
+				<li><a href="#check-by-uri">Check by URI</a></li>
+				<li><a href="#check-by-input">Check by Direct Input</a></li>
+			</ul>
+			<div id="fields">
+				<fieldset id="validate-by-uri" class="tabset_content front"><legend class="tabset_label">Check by URI</legend>
+					<form method="get" action="/">
+						<p class="instructions">Check a document:</p>
+
+						<p>
+							<label title="Address of page to check" for="uri">Address:</label>
+							<input type="text" name="uri" id="uri" size="45" />
+						</p>
+
+						<p class="submit_button">
+						<input type="submit" title="Submit for check" value="Check" />
+						</p>
+					</form>
+				</fieldset>
+
+				<fieldset id="validate-by-input"  class="tabset_content front"><legend class="tabset_label">Check by direct input</legend>
+					<form method="post" enctype="multipart/form-data" action="/">
+						<p class="instructions"><label title="Paste a complete (HTML) Document here" for="fragment">Enter the Markup to check</label>:<br />
+						<textarea id="fragment" name="fragment" rows="12" cols="80"></textarea>
+						</p>
+
+						<p class="submit_button">
+						<input title="Submit for check" type="submit" value="Check" />
+						</p>
+
+					</form>
+				</fieldset>
+			</div><!-- fields -->
+		</div> <!-- frontforms -->
+
+		<div id="result">
+		<% if result.size > 0 %>
+			<h2 class="error"><%= result.size %> errors found</h2>
+			<ul class="result">
+			<% result.each { |item| %>
+				<li>
+					<p class="type"><%= item.note %></p>
+					<p class="suggestion"><%= item.text %></p>
+      			</li>
+			<% } %>
+			</ul>
+		<% else %>
+			<h2 class="pass">No measurable errors found</h2>
+			<p>Good work! To make sure the page is accessible you should evaluate it with users.</p>
+		<% end %>
+		</div>
+	</body>
+</html>
+
+

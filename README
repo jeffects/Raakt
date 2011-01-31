@@ -1,0 +1,83 @@
+
+RAAKT - The Ruby Accessibility Analysis Kit
+
+Copyright (c) 2006, Peter Krantz (http://www.peterkrantz.com)
+All rights reserved.
+
+License: See LICENSE file.
+
+RAAKT is a toolkit to find accessibility issues in HTML documents. RAAKT can be used as part of a an automatic test procedure or as a standalone module for mass validation of all pages in a site. RAAKT is based on PAAKT the Python Accessibility Analysis Kit.
+
+The following checks are done:
+
+check_document_structure
+check_tables
+check_for_formatting_elements
+check_has_heading
+check_form
+check_link_text
+check_title
+check_frames
+check_images
+check_refresh
+check_for_nested_tables
+check_for_language_info
+
+RAAKT output is in the form of an array of error message objects. An error message object has an id which can be used to find out more about the specific error.
+
+To run unit tests for raakt, see the raakt_test.rb file in the tests folder. Some of the tests access remote documents over the internet. To include remote tests, run the test suite with the "includeremote" parameter:
+
+	> ruby raakt_test.rb includeremote
+
+
+CONTRIBUTIONS
+
+Patch to use hpricot by Derek Perrault.
+
+MORE INFO 
+
+For more information about RAAKT, please contact peter dot krantz at gmail dot com or see http://peterkrantz.com/projects/raakt
+
+To use RAAKT as a command line tool (see acctest.rb in the examples dir of the installed gem):
+
+
+	# This is a sample command line script that uses the raakt gem to test a html document.
+	require 'rubygems'
+	require 'net/http'
+	require 'uri'
+	require 'raakt'
+
+	#Parse command line url argument
+	url = ARGV[0] || ""
+
+	if url.length == 0
+	  puts "\nRuby Accessibility Analysis Kit\n\n  Usage: raakt <url>\n  Example: raakt http://www.rubylang.org/en"
+	  return
+	else
+	  #Clean the url and make sure protocol and trailing slash is available
+	  url = "http://" + url unless url[0..3] == "http"
+	end
+
+	#Get html for the url specified (does not follow redirects)
+	puts "Fetching #{url}...\n"
+	uri = URI.parse(url)
+	res = Net::HTTP.start(uri.host, uri.port) {|http|
+	  http.get(uri.path)
+	}
+
+	# Set up the RAAKT test
+	raakttest = Raakt::Test.new(res.body)
+
+	#Run all checks and print result to the console
+	result = raakttest.all
+
+	if result.length > 0
+	  puts "Accessibility problems detected:"
+	  puts result
+	else
+	  puts "No measurable accessibility problems were detected."
+	end
+
+
+
+
